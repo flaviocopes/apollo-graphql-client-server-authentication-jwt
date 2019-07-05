@@ -1,0 +1,21 @@
+{
+  "name": "appserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^2.6.7",
+    "apollo-server-express": "^2.6.7",
+    "bcrypt": "^3.0.6",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "graphql": "^14.4.2",
+    "jsonwebtoken": "^8.5.1"
+  }
+}
