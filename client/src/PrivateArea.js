@@ -5,7 +5,7 @@ import Cookies from 'js-cookie'
 import { navigate } from '@reach/router'
 
 const PrivateArea = () => {
-  if (!Cookies.get('token')) {
+  if (!Cookies.get('signedin')) {
     navigate('/')
   }
 

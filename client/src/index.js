@@ -11,26 +11,14 @@ import Cookies from 'js-cookie'
 import Form from './Form'
 import PrivateArea from './PrivateArea'
 
-const httpLink = new HttpLink({ uri: 'http://localhost:3000/graphql' })
-
-const authLink = setContext((_, { headers }) => {
-  const token = Cookies.get('token')
-
-  return {
-    headers: {
-      ...headers,
-      authorization: `Bearer ${token}`
-    }
-  }
-})
-const link = authLink.concat(httpLink)
+const httpLink = new HttpLink({ uri: 'http://localhost:3000/graphql', credentials: 'include' })
 
 const client = new ApolloClient({
-  link: link,
+  link: httpLink,
   cache: new InMemoryCache()
 })
 
-if (Cookies.get('token')) {
+if (Cookies.get('signedin')) {
   navigate('/private-area')
 }
 

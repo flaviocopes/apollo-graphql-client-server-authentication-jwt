@@ -7,6 +7,7 @@ const {
 const cors = require('cors')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const cookieParser = require('cookie-parser')
 
 const todos = [
   {
@@ -38,7 +39,15 @@ const users = [
 const SECRET_KEY = 'secret!'
 
 const app = express()
-app.use(cors())
+
+const corsOptions = {
+  origin: 'http://localhost:3001',
+  credentials: true
+}
+
+
+app.use(cors(corsOptions))
+app.use(cookieParser())
 
 const typeDefs = gql`
   type User {
@@ -68,10 +77,9 @@ const resolvers = {
 }
 
 const context = ({ req }) => {
-  const token = req.headers.authorization || ''
-
+  const token = req.cookies['jwt'] || ''
   try {
-    return { id, email } = jwt.verify(token.split(' ')[1], SECRET_KEY)
+    return { id, email } = jwt.verify(token, SECRET_KEY)
   } catch (e) {
     throw new AuthenticationError(
       'Authentication token is invalid, please log in',
@@ -79,8 +87,9 @@ const context = ({ req }) => {
   }
 }
 
-const server = new ApolloServer({ typeDefs, resolvers, context })
-server.applyMiddleware({ app })
+const server = new ApolloServer({ typeDefs, resolvers, context,
+  cors: false })
+server.applyMiddleware({ app, cors: false })
 
 app.use(express.urlencoded({extended: true}))
 app.post('/login', async (req, res) => {
@@ -109,9 +118,14 @@ app.post('/login', async (req, res) => {
     SECRET_KEY,
   )
 
+  res.cookie('jwt', token, {
+    httpOnly: true
+    //secure: true, //on HTTPS
+    //domain: 'example.com', //set your domain
+  })
+
   res.send({
-    success: true,
-    token: token,
+    success: true
   })
 })
 

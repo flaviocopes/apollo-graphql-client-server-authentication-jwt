@@ -14,6 +14,7 @@
     "apollo-server-express": "^2.6.7",
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
     "graphql": "^14.4.2",
     "jsonwebtoken": "^8.5.1"

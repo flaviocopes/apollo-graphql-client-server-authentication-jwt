@@ -12,6 +12,7 @@ const Form = () => {
 
     const options = {
       method: 'post',
+      credentials: 'include',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
       },
@@ -33,7 +34,7 @@ const Form = () => {
     .then(response => response.json())
     .then(data => {
       if (data.success) {
-        document.cookie = 'token=' + data.token
+        document.cookie = 'signedin=true'
         navigate('/private-area')
       }
     })
